@@ -211,3 +211,66 @@ source /opt/intel/oneapi/setvars.sh
 <a href="https://github.com/RVC-Project/Retrieval-based-Voice-Conversion-WebUI/graphs/contributors" target="_blank">
   <img src="https://contrib.rocks/image?repo=RVC-Project/Retrieval-based-Voice-Conversion-WebUI" />
 </a>
+
+---
+
+## Deployment Guide (Windows + NVIDIA)
+
+### One-Click Portable Packaging
+
+```batch
+powershell -File 打包便携版.ps1
+```
+
+This creates `RVC-Portable/` folder with Python + all dependencies + models. Copy to USB drive and run `start-gui.bat` on any PC.
+
+### Quick Start
+
+| Script | Usage |
+|--------|-------|
+| `go-realtime-gui.bat` | Real-time voice changer (for gaming) |
+| `go-web.bat` | Web training/inference interface (port 7897) |
+| `打包便携版.ps1` | Package everything into portable folder |
+
+Both `go-*.bat` auto-detect Python: portable (`./python/python.exe`) first, then system (`C:\Program Files\Python310`).
+
+### Included Voice Models (assets/weights/)
+
+**Female (中文女声)**
+
+| File | Type |
+|------|------|
+| `yalin_yujie.pth` + `.index` | 御姐音 (Recommended) |
+| `wanxin.pth` + `.index` | 温柔女声 |
+| `shiyun.pth` + `.index` | 清晰女声 |
+| `xuejie.pth` + `.index` | 少女音 |
+| `AlizeeBlondeV2.pth` + `.index` | Extra |
+
+**Male (中文男声)** — 15 models from `chaye741/RVC-Voice-Models`
+
+| File | Type |
+|------|------|
+| `nansheng_nanshen.pth` | 磁性型男 |
+| `nansheng_yansang.pth` | 烟嗓低音 |
+| `nansheng_qingnian.pth` | 青年音 |
+| `nansheng_01~10.pth` | 通用男声 x9 |
+| `dingzhen.pth` / `lubenwei.pth` | 名人音色 |
+
+### Real-time Voice Changer Settings
+
+| Parameter | Recommended |
+|-----------|-------------|
+| F0 algorithm | rmvpe |
+| Pitch (male→female) | +12 |
+| Pitch (female→male) | -12 |
+| Index Rate | 0.75 |
+| Half-precision | ON |
+| Block Time | 0.13s |
+
+### Game Audio Routing
+
+```
+Physical Mic → RVC → CABLE Input → CABLE Output (system default) → Game
+```
+
+Requires [VB-Cable](https://vb-audio.com/Cable/). Set CABLE Output as Windows default microphone via `mmsys.cpl`.
