@@ -7,6 +7,10 @@ __pycache__
 tools/aria2c/
 tools/flag.txt
 
+# Portable packaging artifacts
+RVC-Portable/
+RVC-Portable.zip
+
 # Imported from huggingface.co/lj1995/VoiceConversionWebUI
 /pretrained
 /pretrained_v2
