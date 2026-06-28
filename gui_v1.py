@@ -3,6 +3,12 @@ import sys
 from dotenv import load_dotenv
 import shutil
 
+# 屏蔽 harmless FutureWarning 提示
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", message=".*weight_norm.*")
+warnings.filterwarnings("ignore", message=".*torch.load.*")
+
 load_dotenv()
 
 os.environ["OMP_NUM_THREADS"] = "4"
