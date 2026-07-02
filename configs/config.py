@@ -68,6 +68,7 @@ class Config:
         for config_file in version_config_list:
             p = f"configs/inuse/{config_file}"
             if not os.path.exists(p):
+                os.makedirs(os.path.dirname(p), exist_ok=True)
                 shutil.copy(f"configs/{config_file}", p)
             with open(f"configs/inuse/{config_file}", "r") as f:
                 d[config_file] = json.load(f)
