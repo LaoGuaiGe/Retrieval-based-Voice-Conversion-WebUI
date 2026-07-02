@@ -80,7 +80,11 @@ class RVC:
             self.is_half = config.is_half
 
             if index_rate != 0:
-                self.index = faiss.read_index(index_path)
+                # 用 Python 读字节 + deserialize,避免 faiss C++ 读文件不支持中文路径
+                with open(index_path, "rb") as f:
+                    self.index = faiss.deserialize_index(
+                        np.frombuffer(f.read(), dtype=np.uint8)
+                    )
                 self.big_npy = self.index.reconstruct_n(0, self.index.ntotal)
                 printt("Index search enabled")
             self.pth_path: str = pth_path
@@ -197,7 +201,11 @@ class RVC:
 
     def change_index_rate(self, new_index_rate):
         if new_index_rate != 0 and self.index_rate == 0:
-            self.index = faiss.read_index(self.index_path)
+            # 用 Python 读字节 + deserialize,避免 faiss C++ 读文件不支持中文路径
+            with open(self.index_path, "rb") as f:
+                self.index = faiss.deserialize_index(
+                    np.frombuffer(f.read(), dtype=np.uint8)
+                )
             self.big_npy = self.index.reconstruct_n(0, self.index.ntotal)
             printt("Index search enabled")
         self.index_rate = new_index_rate
